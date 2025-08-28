@@ -7,31 +7,13 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
-
     private static final String URL = "jdbc:mysql://localhost:3306/users_db?useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "VanekTar102030";
 
-    // JDBC
-    public static Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Подключение через JDBC успешно!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Ошибка JDBC подключения!");
-        }
-        return connection;
-    }
-
-    // Hibernate
     private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
@@ -47,7 +29,7 @@ public class Util {
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
                 settings.put(Environment.SHOW_SQL, "true");
                 settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                settings.put(Environment.HBM2DDL_AUTO, "none");
+                settings.put(Environment.HBM2DDL_AUTO, "update"); // можно "create", если хочешь пересоздавать таблицу
 
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(User.class);
@@ -62,6 +44,4 @@ public class Util {
         }
         return sessionFactory;
     }
-
-
 }

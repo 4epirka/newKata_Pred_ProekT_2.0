@@ -5,7 +5,7 @@ import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 
 public class Main {
     public static void main(String[] args) {
-        UserDao userDao = new UserDaoHibernateImpl(); // используем Hibernate DAO
+        UserDao userDao = new UserDaoHibernateImpl(); // используем только Hibernate DAO
 
         userDao.createUsersTable();
 
@@ -15,7 +15,7 @@ public class Main {
         userDao.saveUser("Name4", "LastName4", (byte) 38);
 
         userDao.removeUserById(1);
-        userDao.getAllUsers();
+        userDao.getAllUsers().forEach(System.out::println);
         userDao.cleanUsersTable();
         userDao.dropUsersTable();
     }
